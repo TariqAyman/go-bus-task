@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('search');
+
+Route::resource('reservation', ReservationController::class)->only(['store', 'index']);
+Route::get('reservation/{tripId}', [ReservationController::class, 'create'])->name('reservation.trip');
